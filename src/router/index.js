@@ -5,6 +5,8 @@ import LoginView from "../views/LoginView.vue";
 import passwordRecoveryView from "../views/PasswordRecoveryView.vue";
 import axios from "axios";
 import PageNotFoundView from "@/views/PageNotFoundView.vue";
+import IncomeView from "@/views/IncomeView.vue";
+import ExpenseView from "@/views/ExpenseView.vue";
 
 const routes = [
   {
@@ -29,6 +31,22 @@ const routes = [
     path: "/password-recovery",
     name: "password-recovery",
     component: passwordRecoveryView,
+  },
+  {
+    path: "/income",
+    name: "income",
+    component: IncomeView,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: "/expense",
+    name: "expense",
+    component: ExpenseView,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/:pathMatch(.*)*",

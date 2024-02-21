@@ -1,5 +1,5 @@
 <template>
-  <Header :active-page="activePage" />
+  <Header :activePage="activePage"></Header>
 </template>
 
 <script>
@@ -7,19 +7,12 @@ import Header from "@/components/Header.vue";
 import { ref } from "vue";
 
 export default {
-  name: "HomeView",
-  components: {
-    Header: Header,
-  },
+  components: { Header },
   setup() {
-    const activePage = ref("finance");
+    const activePage = ref("expense");
     return { activePage };
   },
 };
 </script>
 
-<style>
-* {
-  margin: 0;
-}
-</style>
+<style scoped></style>
