@@ -2,10 +2,10 @@
   <Header :active-page="activePage"></Header>
   <div class="container">
     <form>
-      <h2>New Expense</h2>
+      <h2>New Income</h2>
       <div class="form-group">
         <label for="description">Description</label>
-        <input type="text" id="description" required v-model="description" />
+        <input type="text" id="description" required v-model="description" placeholder="Add a description"/>
       </div>
       <div class="form-group">
         <label for="price">Price</label>
@@ -24,6 +24,11 @@
           </option>
         </select>
       </div>
+      <div class="button-container">
+        <button class="btn-circle">
+          <font-awesome-icon :icon="['fas', 'check']" style="font-size: 26px" />
+        </button>
+      </div>
     </form>
   </div>
 </template>
@@ -37,7 +42,7 @@ export default {
   components: { Header, CurrencyInput },
   name: "App",
   setup() {
-    const activePage = ref("expense");
+    const activePage = ref("income");
     const value = ref(0.0);
     const description = ref("");
     const date = ref(null);
@@ -66,13 +71,19 @@ export default {
 
 form {
   display: block;
-  max-height: 450px;
+  max-height: 550px;
   height: 100vh;
   max-width: 600px;
   width: 100vw;
   background-color: white;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  justify-content: start;
+}
+
+form h2 {
+  margin-top: 18px;
+  margin-bottom: 10px;
 }
 
 .form-group {
@@ -81,13 +92,41 @@ form {
 
 label {
   font-weight: bold;
+  margin-left: 30px;
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 5px;
 }
 
 input,
 select {
-  width: 100%;
+  width: 90%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+}
+
+.btn-circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-circle:hover {
+  background-color: #0056b3;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
