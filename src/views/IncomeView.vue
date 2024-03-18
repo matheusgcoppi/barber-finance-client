@@ -65,10 +65,15 @@ export default {
     ]);
 
     const handleSubmit = async () => {
-      const { income } = Income();
+      const { income, error } = Income();
       const formattedDate = new Date(date.value).toISOString();
       await income(value, description, formattedDate, selected);
-      await router.push({ name: "home" });
+      if (error.value) {
+        // Handle the error (e.g., display an error message)
+        console.error("Income error:", error.value);
+      } else {
+        await router.push({ name: "home" });
+      }
     };
 
     return {
