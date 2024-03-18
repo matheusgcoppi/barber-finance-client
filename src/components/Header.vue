@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <p>Barber Finance</p>
+    <a class="logo" :href="'/'">Barber Finance</a>
     <div class="links">
       <a :href="'/'" :class="{ active: activePage === 'finance' }">Finance</a>
       <a :href="'/income'" :class="{ active: activePage === 'income' }"
@@ -36,11 +36,12 @@ export default {
   align-items: center;
 }
 
-.header p {
+.logo {
   margin-left: 300px;
   font-weight: bold;
   color: white;
   font-size: 22px;
+  text-decoration: none;
 }
 
 .links {

@@ -1,21 +1,19 @@
-import { ref } from "vue";
 import axios from "axios";
+import { ref } from "vue";
 
-const LoginUser = () => {
-  const user = ref(null);
+const Income = () => {
   const error = ref(null);
-
-  const login = async (email, password) => {
+  const income = async (value, description, date, selected) => {
     try {
-      const url = "http://localhost:8080/login";
+      const url = "http://localhost:8080/income";
       const config = {
         headers: { "Content-Type": "application/json" },
       };
-      console.log(email.value)
-      console.log(password.value)
       const data = {
-        email: email.value,
-        password: password.value,
+        price: value.value,
+        description: description.value,
+        when: date,
+        payment: selected.value,
       };
       await axios.post(url, data, config, {
         withCredentials: true,
@@ -25,7 +23,7 @@ const LoginUser = () => {
       error.value = err.response.data.error;
     }
   };
-  return { login, user, error };
+  return { error, income };
 };
 
-export default LoginUser;
+export default Income;

@@ -1,11 +1,17 @@
 <template>
   <Header :active-page="activePage"></Header>
   <div class="container">
-    <form>
+    <form @submit.prevent="handleSubmit">
       <h2>New Income</h2>
       <div class="form-group">
         <label for="description">Description</label>
-        <input type="text" id="description" required v-model="description" placeholder="Add a description"/>
+        <input
+          type="text"
+          id="description"
+          required
+          v-model="description"
+          placeholder="Add a description"
+        />
       </div>
       <div class="form-group">
         <label for="price">Price</label>
@@ -13,7 +19,7 @@
       </div>
       <div class="form-group">
         <label for="date">Date</label>
-        <input type="date" id="date" required v-model="date" />
+        <input type="datetime-local" id="date" required v-model="date" />
       </div>
       <div class="form-group">
         <label for="payment">Payment Method</label>
@@ -37,6 +43,8 @@
 import { ref } from "vue";
 import Header from "@/components/Header.vue";
 import CurrencyInput from "./CurrencyInput";
+import Income from "@/composables/Income";
+import router from "@/router";
 
 export default {
   components: { Header, CurrencyInput },
@@ -56,7 +64,22 @@ export default {
       { text: "Other", value: 6 },
     ]);
 
-    return { activePage, value, options, description, date, selected };
+    const handleSubmit = async () => {
+      const { income } = Income();
+      const formattedDate = new Date(date.value).toISOString();
+      await income(value, description, formattedDate, selected);
+      await router.push({ name: "home" });
+    };
+
+    return {
+      activePage,
+      value,
+      options,
+      description,
+      date,
+      selected,
+      handleSubmit,
+    };
   },
 };
 </script>
