@@ -1,11 +1,17 @@
 <template>
   <Header :active-page="activePage"></Header>
   <div class="container">
-    <form>
+    <form @submit.prevent="handleSubmit">
       <h2>New Expense</h2>
       <div class="form-group">
         <label for="description">Description</label>
-        <input type="text" id="description" required v-model="description" placeholder="Add a description"/>
+        <input
+          type="text"
+          id="description"
+          required
+          v-model="description"
+          placeholder="Add a description"
+        />
       </div>
       <div class="form-group">
         <label for="price">Price</label>
@@ -13,7 +19,7 @@
       </div>
       <div class="form-group">
         <label for="date">Date</label>
-        <input type="date" id="date" required v-model="date" />
+        <input type="datetime-local" id="date" required v-model="date" />
       </div>
       <div class="form-group">
         <label for="payment">Payment Method</label>
@@ -37,6 +43,9 @@
 import { ref } from "vue";
 import Header from "@/components/Header.vue";
 import CurrencyInput from "./CurrencyInput";
+import expense from "@/composables/Expense";
+import router from "@/router";
+import Expense from "@/composables/Expense";
 
 export default {
   components: { Header, CurrencyInput },
@@ -56,7 +65,28 @@ export default {
       { text: "Other", value: 6 },
     ]);
 
-    return { activePage, value, options, description, date, selected };
+    const handleSubmit = async () => {
+      const { expense, error } = Expense();
+      const formattedDate = new Date(date.value).toISOString();
+      console.log(date.value)
+      console.log(formattedDate)
+      await expense(value, description, formattedDate, selected);
+      if (error.value) {
+        // Handle the error (e.g., display an error message)
+        console.error("Income error:", error.value);
+      } else {
+        await router.push({ name: "home" });
+      }
+    };
+    return {
+      activePage,
+      value,
+      options,
+      description,
+      date,
+      selected,
+      handleSubmit,
+    };
   },
 };
 </script>
