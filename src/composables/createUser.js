@@ -1,5 +1,6 @@
 import { ref } from "vue";
 import axios from "axios";
+import router from "@/router";
 
 const createUser = () => {
   const user = ref(null);
@@ -19,6 +20,8 @@ const createUser = () => {
       };
       const response = await axios.post(url, data, config);
       console.log(response.data);
+
+      router.push('/login');
     } catch (err) {
       console.error(err.response.data.error);
       error.value = err.response.data.error;

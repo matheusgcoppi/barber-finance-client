@@ -1,57 +1,46 @@
 <template>
   <div class="container">
-    <form @submit.prevent="handleSubmit">
-      <h2>Login</h2>
+    <form @submit.prevent="handleForgotPassword">
+      <h2>Forgot Password?</h2>
       <label for="email">Email:</label>
       <input
-        type="email"
-        id="email"
-        required
-        v-model="email"
-        placeholder="Email"
+          type="email"
+          id="email"
+          required
+          v-model="email"
+          placeholder="Email"
       />
-      <label for="password">Password:</label>
-      <input
-        type="password"
-        id="password"
-        required
-        v-model="password"
-        placeholder="Password"
-      />
+      <div v-if="error" class="error">{{ error }}</div>
+      <div v-if="successMessage" class="success">{{ successMessage }}</div>
       <div class="forgot-password">
-        <a v-bind:href="'/password-recovery'">Forgot Password?</a>
+        <a href="/login">Return to login</a>
       </div>
       <div>
-        <button>Log In</button>
+        <button type="submit">Reset Password</button>
       </div>
-      <hr class="divider" />
-      <router-link to="/signup">
-        <div class="signup">
-          <button>Sign Up</button>
-        </div>
-      </router-link>
     </form>
   </div>
 </template>
 
 <script>
 import { ref } from "vue";
-import LoginUser from "@/composables/LoginUser";
+import { usePassword } from "@/composables/usePassword";
 
 export default {
   setup() {
     const email = ref("");
-    const password = ref("");
-    const isAuthenticated = ref(false);
+    const { forgotPassword, error, successMessage } = usePassword();
 
-    const handleSubmit = async () => {
-      const { login } = LoginUser();
-
-      let result = await login(email, password);
-      console.log(result);
-      if (result) isAuthenticated.value = true;
+    const handleForgotPassword = async () => {
+      await forgotPassword(email.value);
     };
-    return { email, password, handleSubmit };
+
+    return {
+      email,
+      handleForgotPassword,
+      error,
+      successMessage,
+    };
   },
 };
 </script>
@@ -112,6 +101,10 @@ button {
   font-weight: bold;
 }
 
+button:hover {
+  background-color: #2980b9;
+}
+
 .forgot-password {
   margin-top: 5px;
   margin-bottom: 5px;
@@ -125,16 +118,13 @@ button {
   color: #479cd9;
 }
 
-.signup button {
-  background-color: white;
-  color: #3498db;
-  border-radius: 5px;
-  border: 2px solid #3498db;
+.error {
+  color: red;
+  margin-bottom: 10px;
 }
 
-.divider {
-  margin-top: 20px;
-  border: 0;
-  border-top: 1px solid #ccc;
+.success {
+  color: green;
+  margin-bottom: 10px;
 }
 </style>
